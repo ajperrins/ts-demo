@@ -1,4 +1,6 @@
+/// <reference path="typings/modules/lodash/index.d.ts" />
 "use strict";
+var _ = require('lodash');
 var demos_1 = require("./demos");
 var DemoCategory;
 (function (DemoCategory) {
@@ -15,6 +17,9 @@ var Demo = (function () {
         this.name = name;
         this.category = Demo.firstCharToCategoryMap[name[0]];
     }
+    Demo.prototype.toString = function () {
+        return "I am " + DemoCategory[this.category];
+    };
     Demo.firstCharToCategoryMap = {
         'M': DemoCategory.Males,
         'F': DemoCategory.Females,
@@ -23,13 +28,8 @@ var Demo = (function () {
     };
     return Demo;
 }());
-var validDemos = [];
-demos_1.demos.forEach(function (demoName) {
-    var demo = new Demo(demoName);
-    if (demo.category)
-        validDemos.push(demo);
-});
-validDemos.forEach(function (validDemo) {
-    return console.log("demo " + validDemo.name + " is categorized under " + DemoCategory[validDemo.category]);
-});
+var validDemos = _.map(_.filter(demos_1.demos, function (demo) {
+    return new Demo(demo).category !== undefined;
+}), function (validDemoName) { return new Demo(validDemoName); });
+_.each(validDemos, function (d) { return console.log(d.toString()); });
 //# sourceMappingURL=index.js.map

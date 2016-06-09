@@ -6,5 +6,6 @@
   "repository": "https://github.com/ajperrins/ts-demo.git",
   "author": "andrew.perrins@gmail.com",
   "dependencies": {
+    "lodash": "^4.13.1"
   }
 }

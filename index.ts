@@ -1,3 +1,6 @@
+/// <reference path="typings/modules/lodash/index.d.ts" />
+
+import * as _ from 'lodash';
 import {demos} from "./demos";
 
 enum DemoCategory {
@@ -17,6 +20,10 @@ class Demo {
 
   category: DemoCategory;
 
+  toString() {
+    return `I am ${DemoCategory[this.category]}`;
+  }
+
   static firstCharToCategoryMap: { [key: string]: DemoCategory; } = {
     'M': DemoCategory.Males,
     'F': DemoCategory.Females,
@@ -25,15 +32,8 @@ class Demo {
   };
 }
 
-const validDemos = [];
+const validDemos: Demo[] = _.map(_.filter(demos, (demo) =>
+  new Demo(demo).category !== undefined
+), (validDemoName) => new Demo(validDemoName));
 
-demos.forEach(demoName => {
-  var demo = new Demo(demoName);
-  if(demo.category)
-    validDemos.push(demo);
-  
-});
-
-validDemos.forEach(validDemo => 
-  console.log(`demo ${validDemo.name} is categorized under ${DemoCategory[validDemo.category]}`)
-)
+_.each(validDemos, (d) => console.log(d.toString()));
